@@ -38,6 +38,24 @@ typedef enum
 
 class Figura
 {
+public:
+    Figura(TipusFigura tipus, ColorFigura color, int posX = 0, int posY = 0); //Constructor amb tots el paràmetres
+
+    void moureLateral(int dirX);
+    void baixar();
+    void girar(DireccioGir direccio);
+    
+    // Mètodes d'accés per obtenir informació sobre la figura
+    TipusFigura getTipus() const { return m_tipus; }
+    ColorFigura getColor() const { return m_color; }
+    int getPosX() const { return m_posX; }
+    int getPosY() const { return m_posY; }
+private:
+    TipusFigura m_tipus;
+    ColorFigura m_color;
+    int m_posX;
+    int m_posY;
+    int m_forma[MAX_ALCADA][MAX_AMPLADA]; // Matriu que representa la forma de la figura
 };
 
 
