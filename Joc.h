@@ -3,6 +3,8 @@
 #include "Tauler.h"
 #include "Figura.h"
 #include <string>
+#include <fstream>
+#include <iostream>
 using namespace std;
 
 const int MAX_FIGURES = 100;

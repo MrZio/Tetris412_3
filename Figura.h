@@ -1,5 +1,10 @@
 #ifndef FIGURA_H
 #define FIGURA_H
+#include <string>
+#include <fstream>
+#include <iostream>
+using namespace std;
+
 
 typedef enum
 {
@@ -41,7 +46,7 @@ class Figura
 public:
     // Constructors
     Figura(); // Coinstructor per defecte
-    Figura(const ColorFigura colorFigura, const TipusFigura tipusFigura, const int x, const int y, const int formaFigura); // Coinstructor per parametres
+    Figura(const TipusFigura tipusFigura, const int x, const int y, const int formaFigura); // Constructor per parametres
     
     // Setters
     void setPosicioFiguraX(const int x);
@@ -49,8 +54,10 @@ public:
     void setFormaActualFigura(const int direccio);
 
     // Getters
-    int getPosicioFiguraX() const {return m_posicioFigura[0];};
-    int getPosicioFiguraY() const {return m_posicioFigura[1];};
+    TipusFigura getTipus() const { return m_tipusFigura; }
+    int getFila() const { return m_posicioFigura[1]; }
+    int getColumna() const { return m_posicioFigura[0]; }
+    int getGir() const { return m_gir; }
 
     // Metodes
     void decreasePosicioFiguraX();
@@ -62,8 +69,9 @@ private:
     TipusFigura m_tipusFigura;
     // Index 0 = x, Index 1 = y
     int m_posicioFigura[2];
-    // Estructura per saber quina de les 4 posicions te la figura [PREGUNTAR: EL CUADRADO 1 ESTADO]
-    int m_forma;
+
+    // Per saber quina de les 4 posicions te la figura [PREGUNTAR: EL CUADRADO 1 ESTADO]
+    int m_gir;
 };
 
 

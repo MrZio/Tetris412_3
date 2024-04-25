@@ -1,5 +1,6 @@
 #include "Joc.h"
 
+
 void Joc::inicialitza(const string& nomFitxer)
 {
     for (int i = 0; i < MAX_FIGURES; i++) 
@@ -8,39 +9,30 @@ void Joc::inicialitza(const string& nomFitxer)
     }
     ifstream fitxer;
     fitxer.open(nomFitxer);
-    string linea;
+ 
     if (fitxer.is_open()) 
     {   
-        string linea;
-        fitxer >> linea;
-        for (int i = 0; i < 4; i++)
-            m_seguentsFigures[i] = stoi(linea);
-        int a = 0;
-        while(fitxer.eof()) 
-        {
-            fitxer >> linea;
-            for (int b = 0; b < MAX_COL; b++)
-                m_tauler.setCasella(stoi(linea), a, b);
-            a++;
-        }
+        //Inicialitza la figura
+        int tipus, fila, columna, gir;
+        fitxer >> tipus >> fila >> columna >> gir;
+        m_figura[0] = Figura(TipusFigura(tipus), fila, columna, gir);
+
+
+        m_tauler.inicialitza(fitxer);
+
         fitxer.close();
     }
 }
-void escriuTauler(const string& nomFitxer)
+void Joc::escriuTauler(const string& nomFitxer)
 {
     ofstream fitxer;
     fitxer.open(nomFitxer);
     if (fitxer.is_open()) 
     {   
-        string linea;
-        for (int i = 0; i < arraySize(m_seguentsFigures); i++) // QUITAR
-            fitxer << m_seguentsFigures[i] << " "; // QUITAR
-        for (int a = 0; a < MAX_FILA; a++)
-        {
-            fitxer << endl;
-            for (int b = 0; b < MAX_COL; b++)
-                fitxer << m_tauler.getCasella(a, b) << " ";
-        }
+
+        //escriure figura
+        m_tauler.escriuTauler(fitxer);
+        
         fitxer.close();
     }
 }
