@@ -5,6 +5,8 @@
 #include <string>
 using namespace std;
 
+const int MAX_FIGURES = 100;
+
 class Joc
 {
 public:
@@ -17,7 +19,8 @@ public:
 
 private:
     Tauler m_tauler;
-    Figura m_figura;
+    Figura m_figura[MAX_FIGURES];
+	int m_seguentsFigures[MAX_FIGURES];
 };
 
 #endif
