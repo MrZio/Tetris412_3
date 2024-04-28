@@ -15,7 +15,7 @@ void Joc::inicialitza(const string& nomFitxer)
         //Inicialitza la figura
         int tipus, fila, columna, gir;
         fitxer >> tipus >> fila >> columna >> gir;
-        m_figura[0] = Figura(TipusFigura(tipus), fila, columna, gir);
+        m_figura = Figura(TipusFigura(tipus), fila, columna, gir);
 
 
         m_tauler.inicialitza(fitxer);
@@ -37,6 +37,18 @@ void Joc::escriuTauler(const string& nomFitxer)
     }
 }
 
+int Joc::baixaFigura()
+{
+    for (int i = 0; i < MAX_COL;i++)
+    {
+        if (!m_tauler.colisio(m_figura, 2))
+            m_figura.decreasePosicioY();
+    }
+    
+}
+
+
+/*
 int arraySize(int array[MAX_FIGURES]) 
 {
     bool acabar = false;

@@ -13,15 +13,17 @@ class Joc
 {
 public:
 	Joc() {}
+
 	void inicialitza(const string& nomFitxer);
-	bool giraFigura(DireccioGir direccio);
-	bool mouFigura(int dirX);
-	int baixaFigura();
 	void escriuTauler(const string& nomFitxer);
+
+	int baixaFigura(); //mov = 2
+	bool giraFigura(DireccioGir direccio); //mov = 0 o 3
+	bool mouFigura(int dirX); //mov = +1 o -1
 
 private:
     Tauler m_tauler;
-    Figura m_figura[MAX_FIGURES];
+    Figura m_figura;
 	int m_seguentsFigures[MAX_FIGURES];
 };
 

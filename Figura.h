@@ -46,7 +46,7 @@ class Figura
 public:
     // Constructors
     Figura(); // Coinstructor per defecte
-    Figura(const TipusFigura tipusFigura, const int x, const int y, const int formaFigura); // Constructor per parametres
+    Figura(TipusFigura tipusFigura, int x, int y, int gir) : m_tipus(tipusFigura), m_posicio{x, y}, m_gir(gir) {figuraToMatriz();}
     
     // Setters
     void setPosicioFiguraX(const int x);
@@ -54,23 +54,30 @@ public:
     void setFormaActualFigura(const int direccio);
 
     // Getters
-    TipusFigura getTipus() const { return m_tipusFigura; }
-    int getFila() const { return m_posicioFigura[1]; }
-    int getColumna() const { return m_posicioFigura[0]; }
+    TipusFigura getTipus() const { return m_tipus; }
+    int getFila() const { return m_posicio[1]; }
+    int getColumna() const { return m_posicio[0]; }
     int getGir() const { return m_gir; }
+    void getMatriz(char matriz[MAX_ALCADA][MAX_AMPLADA]) const;
 
     // Metodes
-    void decreasePosicioFiguraX();
-    void decreasePosicioFiguraY();
-    void increasePosicioFiguraY();
+    void figuraToMatriz();
+    void giraFigura();
+
+    void decreasePosicioY() {m_posicio[1] -= 1;};
+    void decreasePosicioX();
+    void increasePosicioX();
 
 private:
-    ColorFigura m_colorFigura;
-    TipusFigura m_tipusFigura;
-    // Index 0 = x, Index 1 = y
-    int m_posicioFigura[2];
+    ColorFigura m_color;
+    TipusFigura m_tipus;
 
-    // Per saber quina de les 4 posicions te la figura [PREGUNTAR: EL CUADRADO 1 ESTADO]
+    char m_matriz[MAX_ALCADA][MAX_AMPLADA]; // La posició de referència per a la ubicació de les figures és [1][2]
+
+    // Index: 0 = x, 1 = y
+    int m_posicio[2];
+
+    // Per saber quina de les 4 posicions te la figura
     int m_gir;
 };
 
