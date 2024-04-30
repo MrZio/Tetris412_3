@@ -46,7 +46,7 @@ class Figura
 public:
     // Constructors
     Figura(); // Coinstructor per defecte
-    Figura(TipusFigura tipusFigura, int x, int y, int gir) : m_tipus(tipusFigura), m_posicio{x, y}, m_gir(gir) {figuraToMatriz();}
+    Figura(TipusFigura tipusFigura, int y, int x, int gir) : m_tipus(tipusFigura), m_posicio{x, y}, m_gir(gir), m_color(asignarColor(tipusFigura)) {figuraToMatriz();}
     
     // Setters
     void setPosicioFiguraX(const int x);
@@ -57,28 +57,29 @@ public:
     TipusFigura getTipus() const { return m_tipus; }
     int getFila() const { return m_posicio[1]; }
     int getColumna() const { return m_posicio[0]; }
-    int getGir() const { return m_gir; }
+    int getGir() const { return m_gir; } //FALTA
     void getMatriz(char matriz[MAX_ALCADA][MAX_AMPLADA]) const;
+    ColorFigura getColor() const {return m_color;}
 
     // Metodes
     void figuraToMatriz();
-    void giraFigura();
+    ColorFigura asignarColor(TipusFigura tipus);
 
+    void giraFigura(const DireccioGir dgir);
     void decreasePosicioY() {m_posicio[1] -= 1;};
-    void decreasePosicioX();
-    void increasePosicioX();
+    void decreasePosicioX() {m_posicio[0] -= 1;};
+    void increasePosicioX() {m_posicio[0] += 1;};
+
+    Figura& operator=(const Figura& other);
 
 private:
-    ColorFigura m_color;
     TipusFigura m_tipus;
-
-    char m_matriz[MAX_ALCADA][MAX_AMPLADA]; // La posició de referència per a la ubicació de les figures és [1][2]
-
     // Index: 0 = x, 1 = y
     int m_posicio[2];
-
-    // Per saber quina de les 4 posicions te la figura
+    // Per saber quin dels 4 girs te la figura
     int m_gir;
+    ColorFigura m_color;
+    char m_matriz[MAX_ALCADA][MAX_AMPLADA]; // La posició de referència per a la ubicació de les figures és [1][2]
 };
 
 

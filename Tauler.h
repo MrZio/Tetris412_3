@@ -19,7 +19,7 @@ class Tauler
         void figuraToTauler(const Figura& figura);
         
         bool colisio(const Figura& figura, int mov);
-        bool eliminacioFiles();
+        int eliminacioFiles();
     private:
         ColorFigura m_tauler[MAX_FILA][MAX_COL];
 

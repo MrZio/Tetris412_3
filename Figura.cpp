@@ -1,5 +1,21 @@
 #include "Figura.h"
 
+Figura::Figura()
+{
+    
+    m_tipus = NO_FIGURA;
+    m_posicio[0] = 0;
+    m_posicio[1] = 0;  
+    m_gir = 0;
+    m_color = NO_COLOR;
+
+    for (int i = 0; i < MAX_ALCADA; i++) {
+        for (int j = 0; j < MAX_AMPLADA; j++) {
+            m_matriz[i][j] = ' ';
+        }
+    }
+}
+
 void Figura::figuraToMatriz()
 {
      // Limpia la matriz manualmente
@@ -68,6 +84,28 @@ void Figura::figuraToMatriz()
     }
 }
 
+ColorFigura Figura::asignarColor(TipusFigura tipus)
+{
+        switch (tipus) {
+            case FIGURA_O:
+                return COLOR_GROC;
+            case FIGURA_I:
+                return COLOR_BLAUCEL;
+            case FIGURA_T:
+                return COLOR_MAGENTA;
+            case FIGURA_L:
+                return COLOR_TARONJA;
+            case FIGURA_J:
+                return COLOR_BLAUFOSC;
+            case FIGURA_Z:
+                return COLOR_VERMELL;
+            case FIGURA_S:
+                return COLOR_VERD;
+            default:
+                return NO_COLOR;
+        }
+    }
+
 void Figura::getMatriz(char matriz[MAX_ALCADA][MAX_AMPLADA]) const 
 {
     // Copia la matriz interna en el parámetro proporcionado
@@ -80,7 +118,7 @@ void Figura::getMatriz(char matriz[MAX_ALCADA][MAX_AMPLADA]) const
     }
 }
 
-void Figura::giraFigura()
+void Figura::giraFigura(const DireccioGir dgir)
 {
     if (m_tipus == FIGURA_O) // La figura quadrada no gira
         return;
@@ -96,16 +134,44 @@ void Figura::giraFigura()
         }
     }
 
-    // Invertir columnes per girar cap a la dreta
-    for (int i = 0; i < MAX_ALCADA; i++) {
-        int start = 0; // 0 o 1
-        int end = MAX_AMPLADA - 1; // 3 o 2
-        while (start < end) {
-            char temporal = temp[i][start];  // Guarda el valor inicial
-            temp[i][start] = temp[i][end];  // Asigna el valor final a l'inicial
-            temp[i][end] = temporal;  // Asigna el valor temporal al final
-            start++;
-            end--;
+    int start; // 0 o 1
+    int end; // 3 o 2
+
+    if (dgir == GIR_HORARI)
+    {
+        // Invertir files per girar cap a la esquerra
+        for (int fila = 0; fila < MAX_ALCADA; fila++)
+        {
+            start = 0;
+            end = MAX_AMPLADA - 1;
+            while (start < end)
+            {
+                // Intercambiar columnes
+                char tempValor = temp[fila][start];
+                temp[fila][start] = temp[fila][end];
+                temp[fila][end] = tempValor;
+                start++;
+                end--;
+            }
+        }
+    }
+
+    if (dgir == GIR_ANTI_HORARI)
+    {
+        // Invertir columnes per girar cap a la dreta
+        for (int col = 0; col < MAX_AMPLADA; col++)
+        {
+            start = 0;
+            end = MAX_ALCADA - 1;
+            while (start < end)
+            {
+                // Intercambiar files
+                char tempValor = temp[start][col];
+                temp[start][col] = temp[end][col];
+                temp[end][col] = tempValor;
+                start++;
+                end--;
+            }
         }
     }
 
@@ -117,7 +183,6 @@ void Figura::giraFigura()
     for (int i = 0; i < 4; ++i) {
         tempFila[i] = temp[0][i];
     }
-
     // Realitzem els moviments de fila
     // Fila 1 a la fila 0
     for (int i = 0; i < 4; ++i) {
@@ -137,10 +202,27 @@ void Figura::giraFigura()
     }
 
     // Copiar la matriu temporal de tornada a la matriu original
-    for (int i = 0; i < MAX_ALCADA; i++) {
-        for (int j = 0; j < MAX_AMPLADA; j++) {
+    for (int i = 0; i < MAX_ALCADA; i++)
+    {
+        for (int j = 0; j < MAX_AMPLADA; j++)
             m_matriz[i][j] = temp[i][j];
-        }
     }
+}
 
+Figura& Figura::operator=(const Figura& f)
+{
+    if (&f != this)
+	{
+	
+        for (int i = 0; i < MAX_ALCADA; i++)
+        {
+            for (int j = 0; j < MAX_AMPLADA; j++)
+                m_matriz[i][j] = f.m_matriz[i][j];
+        }
+        m_posicio[0] = f.m_posicio[0];
+        m_posicio[1] = f.m_posicio[1];
+        m_gir = f.m_gir;
+        m_color = f.m_color;
+    }
+    return *this;
 }

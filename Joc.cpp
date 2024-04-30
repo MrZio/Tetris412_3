@@ -3,10 +3,6 @@
 
 void Joc::inicialitza(const string& nomFitxer)
 {
-    for (int i = 0; i < MAX_FIGURES; i++) 
-    {
-        m_seguentsFigures[i] = -1;
-    }
     ifstream fitxer;
     fitxer.open(nomFitxer);
  
@@ -17,6 +13,9 @@ void Joc::inicialitza(const string& nomFitxer)
         fitxer >> tipus >> fila >> columna >> gir;
         m_figura = Figura(TipusFigura(tipus), fila, columna, gir);
 
+        //girem la figura
+        for (int i = 0; i < gir; i++)
+            m_figura.giraFigura(GIR_HORARI);
 
         m_tauler.inicialitza(fitxer);
 
@@ -29,8 +28,7 @@ void Joc::escriuTauler(const string& nomFitxer)
     fitxer.open(nomFitxer);
     if (fitxer.is_open()) 
     {   
-
-        //escriure figura
+        m_tauler.figuraToTauler(m_figura);
         m_tauler.escriuTauler(fitxer);
         
         fitxer.close();
@@ -39,26 +37,47 @@ void Joc::escriuTauler(const string& nomFitxer)
 
 int Joc::baixaFigura()
 {
-    for (int i = 0; i < MAX_COL;i++)
+    int filesCompletades; // Numero de posicions que ha baixat
+    for (int pos = 0; pos < MAX_COL; pos++)
     {
-        if (!m_tauler.colisio(m_figura, 2))
+        if (m_tauler.colisio(m_figura, 2))
+        {
+            m_tauler.figuraToTauler(m_figura);
+            break;
+        }
+        else
             m_figura.decreasePosicioY();
     }
-    
+
+    filesCompletades = m_tauler.eliminacioFiles();
+    return filesCompletades;
 }
 
-
-/*
-int arraySize(int array[MAX_FIGURES]) 
+bool Joc::mouFigura(int dirX)
 {
-    bool acabar = false;
-    int i = 0;
-    while(!acabar) 
+    if (!m_tauler.colisio(m_figura, dirX))
     {
-        if (array[i]== -1) 
-            acabar = true;
-        else
-            i++;
+        if (dirX == 1)
+            m_figura.decreasePosicioX();
+        else   
+            m_figura.increasePosicioX();
+        return true;
     }
-    return i;
+    return false;
+}
+
+bool Joc::giraFigura(DireccioGir direccio)
+{
+    int mov;
+    if (direccio == GIR_HORARI)
+        mov = 0;
+    else if (direccio == GIR_ANTI_HORARI)
+        mov = 3;
+    
+    if (!m_tauler.colisio(m_figura, mov))
+    {
+        m_figura.giraFigura(direccio);
+        return true;
+    }else
+        return false;
 }
